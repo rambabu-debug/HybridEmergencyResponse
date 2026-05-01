@@ -1,0 +1,149 @@
+╔════════════════════════════════════════════════════════════════╗
+║              BUILD & TEST ADMIN BOARD - STEP BY STEP            ║
+╚════════════════════════════════════════════════════════════════╝
+
+STEP 1: STOP ALL RUNNING PROCESSES
+═════════════════════════════════════
+In PowerShell, run:
+  Stop-Process -Name java -Force -ErrorAction SilentlyContinue
+  Stop-Process -Name gradle.bat -Force -ErrorAction SilentlyContinue
+
+Wait 2-3 seconds.
+
+STEP 2: BUILD THE PROJECT
+═════════════════════════════════════
+Open PowerShell in project directory:
+  cd C:\Users\ramba\Downloads\demo\AHybridEmergencyResponseSystem
+  .\gradlew clean build -x test
+
+Wait for "BUILD SUCCESSFUL" message (takes ~40-50 seconds)
+
+STEP 3: RUN THE APPLICATION
+═════════════════════════════════════
+In PowerShell, run:
+  .\gradlew bootRun
+
+Wait for "Started Main" message (takes ~10-15 seconds)
+
+STEP 4: OPEN IN BROWSER
+═════════════════════════════════════
+Go to:
+  http://localhost:8888
+
+You should see the login/register page.
+
+STEP 5: REGISTER/LOGIN
+═════════════════════════════════════
+- Click "Register" tab
+- Fill in your details (First Name, Last Name, Email, Phone, Password)
+- Click "Register"
+- Login with your credentials
+
+STEP 6: ALLOW LOCATION
+═════════════════════════════════════
+When browser asks for location permission, click "Allow"
+
+STEP 7: ACCESS ADMIN PANEL
+═════════════════════════════════════
+Look in the navigation bar - you should see "👨‍💼 Admin" button
+Click it to open the admin dashboard
+
+STEP 8: TEST INCIDENT STATUS UPDATE
+═════════════════════════════════════
+In Admin Dashboard:
+1. Click "Manage Incidents" tab (if not already active)
+2. You should see pending incidents
+3. For any incident, click "Acknowledge" button
+4. It will update to ACKNOWLEDGED status
+5. Try "Investigating" or "Resolved" buttons
+6. Check for no errors - everything should work smoothly
+
+STEP 9: TEST SOS STATUS UPDATE
+═════════════════════════════════════
+In Admin Dashboard:
+1. Click "Manage SOS Alerts" tab
+2. You should see active SOS alerts
+3. For any alert, click "Respond" button
+4. It will update to RESPONDED status
+5. Try "Resolved" button
+6. No errors should occur
+
+STEP 10: CHECK DATABASE
+═════════════════════════════════════
+Go to your Neon console:
+  https://console.neon.tech/
+
+Check the tables:
+  - incident_reports table: Status should be updated
+  - sos_alerts table: Status should be updated
+
+All changes should appear immediately!
+
+═════════════════════════════════════════════════════════════════
+
+WHAT YOU SHOULD SEE:
+
+✅ Admin button in navbar
+✅ Admin dashboard with statistics
+✅ List of pending incidents
+✅ List of active SOS alerts
+✅ Status update buttons for each item
+✅ Immediate updates in database
+✅ NO ERRORS when updating status
+✅ Status changes reflected instantly
+
+═════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+
+If you don't see Admin button:
+  → Refresh the page (F5)
+  → Make sure you're logged in
+  → Check browser console (F12) for errors
+
+If status update shows error:
+  → Check that authToken is valid
+  → Make sure you're logged in as a user
+  → Try refreshing and trying again
+  → Check browser console for error details
+
+If database doesn't update:
+  → Wait 2-3 seconds after clicking update
+  → Refresh Neon console to see latest data
+  → Check application logs in terminal for errors
+
+═════════════════════════════════════════════════════════════════
+
+EXPECTED BEHAVIOR:
+
+1. Click "Acknowledge" on incident
+   → Button click works
+   → Status changes to ACKNOWLEDGED
+   → No error messages
+   → Database updates within 1-2 seconds
+
+2. Click "Investigate" on incident
+   → Status changes to INVESTIGATING
+   → List refreshes
+   → Neon shows updated status
+
+3. Click "Resolved" on incident
+   → Status changes to RESOLVED
+   → Incident disappears from pending list
+   → Appears in resolved count
+   → Database updates successfully
+
+4. Same for SOS alerts with their status options
+
+═════════════════════════════════════════════════════════════════
+
+🎉 EVERYTHING IS READY TO TEST!
+
+Your modifications are complete:
+✅ Admin board added
+✅ Database status update fixed
+✅ No other changes made
+✅ Ready to build and run
+
+Follow the steps above and everything should work perfectly!
+

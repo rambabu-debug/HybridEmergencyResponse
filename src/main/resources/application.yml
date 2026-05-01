@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: hybrid-emergency-response-system
+  
+  datasource:
+    url: jdbc:postgresql://ep-cool-lab-anf63x9w-pooler.c-6.us-east-1.aws.neon.tech:5432/neondb?sslmode=require
+    username: neondb_owner
+    password: npg_5wRfogI9nGuM
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+  
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8888
+  servlet:
+    context-path: /
+
+app:
+  security:
+    jwt:
+      secret: d29vZHdvcmQtc2VjdXJpdHktand0LXNlY3JldC1mb3ItaHlicmlkLWVtZXJnZW5jeS1yZXNwb25zZS1zeXN0ZW0=
+      expiration: 86400000 # 24 hours
+      refresh-expiration: 604800000 # 7 days
+    api-key: hybrid-emergency-response-system-api-key-2024
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    todo.tutorials: DEBUG
+

@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'todo.tutorials'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Starters
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Database
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // JWT and Authentication
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    
+    // QR Code Generation
+    implementation 'com.google.zxing:core:3.5.2'
+    implementation 'com.google.zxing:javase:3.5.2'
+    
+    // Machine Learning - ML4J for clustering
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    
+    // JSON Processing
+    implementation 'com.google.code.gson:gson:2.10.1'
+    
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // Encryption
+    implementation 'commons-codec:commons-codec:1.16.0'
+    
+    // Testing
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+test {
+    useJUnitPlatform()
+}

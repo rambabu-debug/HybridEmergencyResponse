@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Emergency Response System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-logo">
+                    <i class="icon-emergency"></i>
+                    <span>Emergency Response System</span>
+                </div>
+                <div class="navbar-menu" id="navbarMenu">
+                    <a href="#dashboard" class="nav-link" onclick="navigateTo('dashboard')">Dashboard</a>
+                    <a href="#sos" class="nav-link" onclick="navigateTo('sos')">SOS Alert</a>
+                    <a href="#tracking" class="nav-link" onclick="navigateTo('tracking')">Tracking</a>
+                    <a href="#incident" class="nav-link" onclick="navigateTo('incident')">Report</a>
+                    <a href="#transport" class="nav-link" onclick="navigateTo('transport')">Transport</a>
+                    <a href="#risk" class="nav-link" onclick="navigateTo('risk')">Risk Zones</a>
+                    <a href="#logout" class="nav-link logout" onclick="logout()">Logout</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Auth Section -->
+        <div id="authSection" class="auth-section">
+            <div class="auth-container">
+                <div class="auth-form-container">
+                    <div class="form-tabs">
+                        <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                        <button class="tab-btn" onclick="switchTab('register')">Register</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="auth-form active">
+                        <h2>Login</h2>
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <button type="submit" class="btn-primary">Login</button>
+                        <div id="loginError" class="error-message"></div>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="registerForm" class="auth-form">
+                        <h2>Register</h2>
+                        <input type="text" id="firstName" placeholder="First Name" required>
+                        <input type="text" id="lastName" placeholder="Last Name" required>
+                        <input type="email" id="registerEmail" placeholder="Email" required>
+                        <input type="tel" id="phoneNumber" placeholder="Phone Number" required>
+                        <input type="password" id="registerPassword" placeholder="Password" required>
+                        <button type="submit" class="btn-primary">Register</button>
+                        <div id="registerError" class="error-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent" class="main-content" style="display: none;">
+            <!-- Dashboard -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Active SOS Alerts</h3>
+                        <div class="card-value" id="activeAlertsCount">0</div>
+                        <button class="btn-secondary" onclick="loadActiveAlerts()">View</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Nearby Risk Zones</h3>
+                        <div class="card-value" id="riskZonesCount">0</div>
+                        <button class="btn-secondary" onclick="navigateTo('risk')">View</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Your Location</h3>
+                        <div class="card-value" id="currentLocation">-</div>
+                        <button class="btn-secondary" onclick="updateLocation()">Update</button>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Recent Incidents</h3>
+                        <div class="card-value" id="incidentsCount">0</div>
+                        <button class="btn-secondary" onclick="navigateTo('incident')">View</button>
+                    </div>
+                </div>
+                <div class="alert-feed">
+                    <h2>Recent Alerts</h2>
+                    <div id="alertsList" class="alerts-list"></div>
+                </div>
+            </section>
+
+            <!-- SOS Alert Section -->
+            <section id="sos" class="content-section">
+                <div class="section-header">
+                    <h1>Emergency SOS Alert</h1>
+                </div>
+                <div class="sos-container">
+                    <button class="btn-emergency" onclick="triggerSOSAlert('MANUAL_SOS')">
+                        <span class="sos-icon">🆘</span>
+                        TAP TO TRIGGER SOS
+                    </button>
+                    <div class="sos-info">
+                        <p>Tap the button above to send an emergency alert. Your location will be shared with nearby responders.</p>
+                    </div>
+                    <form id="sosForm" class="sos-form">
+                        <h3>Additional Details</h3>
+                        <textarea id="sosMessage" placeholder="Describe your emergency (optional)"></textarea>
+                        <select id="triggerType">
+                            <option value="MANUAL_SOS">Manual SOS</option>
+                            <option value="SHAKE_DETECTION">Shake Detection</option>
+                            <option value="BUTTON_PRESS">Button Press</option>
+                        </select>
+                        <button type="submit" class="btn-primary">Submit Additional Info</button>
+                    </form>
+                    <div id="sosHistory" class="sos-history">
+                        <h3>SOS History</h3>
+                        <div id="sosList" class="list-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GPS Tracking Section -->
+            <section id="tracking" class="content-section">
+                <div class="section-header">
+                    <h1>GPS Tracking</h1>
+                </div>
+                <div class="tracking-container">
+                    <div class="tracking-map" id="trackingMap">
+                        <div class="map-placeholder">Map will be displayed here</div>
+                    </div>
+                    <div class="tracking-info">
+                        <h3>Current Location</h3>
+                        <p>Latitude: <span id="currentLat">-</span></p>
+                        <p>Longitude: <span id="currentLon">-</span></p>
+                        <p>Accuracy: <span id="currentAccuracy">-</span>m</p>
+                        <button class="btn-primary" onclick="startTracking()">Start Tracking</button>
+                        <button class="btn-secondary" onclick="stopTracking()">Stop Tracking</button>
+                        <button class="btn-primary" onclick="loadTrackingHistory()">View History</button>
+                    </div>
+                    <div id="trackingHistory" class="tracking-history">
+                        <h3>Tracking History</h3>
+                        <div id="trackingList" class="list-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Incident Report Section -->
+            <section id="incident" class="content-section">
+                <div class="section-header">
+                    <h1>Report an Incident</h1>
+                </div>
+                <div class="incident-container">
+                    <form id="incidentForm" class="incident-form">
+                        <h3>Incident Details</h3>
+                        <select id="incidentType" required>
+                            <option value="">Select Incident Type</option>
+                            <option value="THEFT">Theft</option>
+                            <option value="ASSAULT">Assault</option>
+                            <option value="HARASSMENT">Harassment</option>
+                            <option value="ACCIDENT">Accident</option>
+                            <option value="SUSPICIOUS_ACTIVITY">Suspicious Activity</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                        <select id="severityLevel" required>
+                            <option value="">Select Severity</option>
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3">High</option>
+                            <option value="4">Critical</option>
+                        </select>
+                        <textarea id="incidentDescription" placeholder="Describe the incident" required></textarea>
+                        <input type="text" id="incidentLocation" placeholder="Location description" required>
+                        <input type="file" id="incidentPhoto" accept="image/*">
+                        <button type="submit" class="btn-primary">Submit Report</button>
+                    </form>
+                    <div id="incidentsList" class="incidents-list">
+                        <h3>Your Reports</h3>
+                        <div id="reportsContainer" class="list-container"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transport Verification Section -->
+            <section id="transport" class="content-section">
+                <div class="section-header">
+                    <h1>Transport Verification</h1>
+                </div>
+                <div class="transport-container">
+                    <div class="transport-tabs">
+                        <button class="tab-btn active" onclick="switchTransportTab('verify')">Verify Transport</button>
+                        <button class="tab-btn" onclick="switchTransportTab('create')">Create QR Code</button>
+                    </div>
+
+                    <!-- Verify Transport -->
+                    <div id="verifyTab" class="transport-form active">
+                        <h3>Verify Public Transport</h3>
+                        <input type="text" id="qrCodeInput" placeholder="Enter or scan QR code">
+                        <button class="btn-primary" onclick="verifyTransport()">Verify</button>
+                        <div id="verificationResult" class="verification-result"></div>
+                    </div>
+
+                    <!-- Create QR Code -->
+                    <div id="createTab" class="transport-form">
+                        <h3>Create Transport QR Code</h3>
+                        <input type="text" id="vehicleNumber" placeholder="Vehicle Number" required>
+                        <input type="text" id="driverName" placeholder="Driver Name" required>
+                        <input type="tel" id="driverPhone" placeholder="Driver Phone" required>
+                        <input type="text" id="licenseNumber" placeholder="License Number" required>
+                        <button class="btn-primary" onclick="createTransportQR()">Generate QR Code</button>
+                        <div id="qrCodeResult" class="qr-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Risk Analysis Section -->
+            <section id="risk" class="content-section">
+                <div class="section-header">
+                    <h1>Risk Zone Analysis</h1>
+                </div>
+                <div class="risk-container">
+                    <div class="risk-map" id="riskMap">
+                        <div class="map-placeholder">Risk map will be displayed here</div>
+                    </div>
+                    <div class="risk-info">
+                        <h3>Risk Assessment</h3>
+                        <button class="btn-primary" onclick="loadRiskClusters()">Analyze Risks</button>
+                        <div id="riskClustersList" class="list-container"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
