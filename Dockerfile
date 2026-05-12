@@ -21,8 +21,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copy only the built JAR from the builder stage
-COPY --from=builder /app/build/libs/todo-tutorials-1.0-SNAPSHOT.jar app.jar
-
+COPY --from=builder /app/build/libs/app.jar app.jar
 EXPOSE 8080
 
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar -Dserver.port=${PORT:-8080} /app/app.jar"]
