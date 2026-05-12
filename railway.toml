@@ -1,0 +1,2 @@
+[deploy]
+startCommand = "java $JAVA_OPTS -jar -Dserver.port=$PORT /app/build/libs/todo-tutorials-1.0-SNAPSHOT.jar"
