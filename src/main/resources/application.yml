@@ -3,9 +3,9 @@ spring:
     name: hybrid-emergency-response-system
   
   datasource:
-    url: jdbc:postgresql://ep-cool-lab-anf63x9w-pooler.c-6.us-east-1.aws.neon.tech:5432/neondb?sslmode=require
-    username: neondb_owner
-    password: npg_5wRfogI9nGuM
+    url: ${DATABASE_URL:jdbc:postgresql://ep-cool-lab-anf63x9w-pooler.c-6.us-east-1.aws.neon.tech:5432/neondb?sslmode=require}
+    username: ${DATABASE_USER:neondb_owner}
+    password: ${DATABASE_PASSWORD:npg_5wRfogI9nGuM}
     driver-class-name: org.postgresql.Driver
   
   jpa:
@@ -22,7 +22,7 @@ spring:
       max-request-size: 10MB
 
 server:
-  port: 9999
+  port: ${PORT:9999}
   servlet:
     context-path: /
 

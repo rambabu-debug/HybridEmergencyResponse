@@ -1,0 +1,15 @@
+# Files to ignore in Railway
+.git/
+.gitignore
+.gradle/
+.idea/
+.vscode/
+*.iml
+*.log
+node_modules/
+coverage/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
