@@ -1,0 +1,6 @@
+[build]
+buildCommand = "chmod +x gradlew && ./gradlew clean build -x check -x test -Pproduction"
+include = ["build"]
+
+[deploy]
+startCommand = "java $JAVA_OPTS -jar -Dserver.port=$PORT /app/build/libs/todo-tutorials-1.0-SNAPSHOT.jar"
